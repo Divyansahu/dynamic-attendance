@@ -2,12 +2,12 @@ const express = require("express");
 const fs = require("fs");
 
 const app = express();
-const PORT = 3000;
+const PORT = process.env.PORT || 3000; // ✅ FIXED FOR AZURE
 
 app.use(express.json());
 app.use(express.static(__dirname));
 
-const DB = "users.json";
+const DB = "users.json"; // ✅ must match filename
 
 function readDB() {
   if (!fs.existsSync(DB)) return [];
@@ -70,6 +70,6 @@ app.get("/subjects/:email", (req, res) => {
   res.json(user ? user.subjects : []);
 });
 
-app.listen(PORT, "0.0.0.0", () => {
+app.listen(PORT, () => {
   console.log("Server running on port " + PORT);
 });
